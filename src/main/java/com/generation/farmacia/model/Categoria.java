@@ -1,8 +1,11 @@
 package com.generation.farmacia.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+
+import java.util.List;
 
 @Entity
 @Table(name = "tb_categorias")
@@ -19,6 +22,10 @@ public class Categoria {
     @NotBlank(message = "O atributo 'descricao' é obrigatório!")
     @Size(min = 10, max = 1000, message = "O atributo 'texto' deve conter no mínimo 10 e no máximo 1000 caracteres")
     private String descricao;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "categoria", cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties("categoria")
+    private List<Produto> produto;
 
     public long getId() {
         return id;
